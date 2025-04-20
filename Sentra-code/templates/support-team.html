@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Team - Notifications</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="support-team-page">
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="icon">
+            <img src="https://github.com/Zahra-2/SENTRA/blob/main/logo.png?raw=true" alt="Logo" class="logo">
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="/">HOME</a></li>
+                <li><a href="/service">SERVICE</a></li>
+                <li><a href="/support-team">SUPPORT</a></li>
+                <li><button id="logout-btn" class="logout-btn">LOGOUT</button></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Notifications Section -->
+    <div class="notifications-container">
+        <h2>Support Team Notifications</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Message</th>
+                    <th>Time</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="notifications-table">
+                <!-- Notifications will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script type="module">
+        import { auth, db, collection, getDocs, deleteDoc, doc, updateDoc } from '/static/firebase-config.js';
+
+        async function loadNotifications() {
+            const notificationsTable = document.getElementById('notifications-table');
+            notificationsTable.innerHTML = '';
+
+            try {
+                const querySnapshot = await getDocs(collection(db, 'notifications'));
+                querySnapshot.forEach((notificationDoc) => {
+                    const notification = notificationDoc.data();
+                    const row = document.createElement('tr');
+
+                    row.innerHTML = `
+                        <td>${notification.user_email}</td>
+                        <td>${notification.message}</td>
+                        <td>${new Date(notification.timestamp).toLocaleString()}</td>
+                        <td>
+                            <button class="btn btn-read" onclick="markAsRead('${notificationDoc.id}')">Mark as Read</button>
+                            <button class="btn btn-delete" onclick="deleteNotification('${notificationDoc.id}')">Delete</button>
+                        </td>
+                    `;
+
+                    notificationsTable.appendChild(row);
+                });
+            } catch (error) {
+                console.error("Error fetching notifications:", error);
+            }
+        }
+
+        async function markAsRead(notificationId) {
+            try {
+                await updateDoc(doc(db, 'notifications', notificationId), {
+                    status: 'read'
+                });
+                alert('Notification marked as read');
+                loadNotifications();
+            } catch (error) {
+                console.error("Error updating notification:", error);
+            }
+        }
+
+        async function deleteNotification(notificationId) {
+            try {
+                await deleteDoc(doc(db, 'notifications', notificationId));
+                alert('Notification deleted');
+                loadNotifications();
+            } catch (error) {
+                console.error("Error deleting notification:", error);
+            }
+        }
+
+        window.markAsRead = markAsRead;
+        window.deleteNotification = deleteNotification;
+
+        loadNotifications();
+    </script>
+
+</body>
+</html>

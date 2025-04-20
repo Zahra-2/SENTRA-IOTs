@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coming Soon - SENTRA</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body class="coming-soon-page">
+    <!-- شعار SENTRA في الزاوية العلوية -->
+    <div class="navbar">
+        <div class="icon">
+            <img src="https://github.com/Zahra-2/SENTRA/blob/main/logo.png?raw=true" 
+                 alt="Logo" class="logo">
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="/">HOME</a></li>
+                <li><a href="/">LOGIN</a></li>
+                <li><a href="/service">SERVICE</a></li>
+                <li><a href="/contact">CONTACT</a></li>
+            </ul>
+        </div>
+    </div>    
+  
+    <!-- المحتوى الرئيسي -->
+    <div class="coming-soon-content">
+        <h1>We Will Come Soon</h1>
+        <p>Our website is under construction. We're working hard to bring you an amazing experience. Stay tuned!</p>
+        <div class="countdown">
+            <div class="countdown-item">
+                <span id="days">00</span>
+                <span>Days</span>
+            </div>
+            <div class="countdown-item">
+                <span id="hours">00</span>
+                <span>Hours</span>
+            </div>
+            <div class="countdown-item">
+                <span id="minutes">00</span>
+                <span>Minutes</span>
+            </div>
+            <div class="countdown-item">
+                <span id="seconds">00</span>
+                <span>Seconds</span>
+            </div>
+        </div>
+    </div>
+    <!-- كود JavaScript هنا -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const targetDate = new Date("2025-04-04T23:59:59").getTime();
+            const countdownContainer = document.querySelector(".countdown");
+            const daysEl = document.getElementById("days");
+            const hoursEl = document.getElementById("hours");
+            const minutesEl = document.getElementById("minutes");
+            const secondsEl = document.getElementById("seconds");
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const timeLeft = targetDate - now;
+
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                    countdownContainer.innerHTML = "<h2>We're Live!</h2>";
+                    return;
+                }
+
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                daysEl.textContent = String(days).padStart(2, "0");
+                hoursEl.textContent = String(hours).padStart(2, "0");
+                minutesEl.textContent = String(minutes).padStart(2, "0");
+                secondsEl.textContent = String(seconds).padStart(2, "0");
+            }
+
+            const interval = setInterval(updateCountdown, 1000);
+            updateCountdown();
+        });
+    </script>
+</body>
+</html>

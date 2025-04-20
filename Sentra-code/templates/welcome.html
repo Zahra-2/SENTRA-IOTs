@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Welcome - SENTRA</title>
+		<link
+			rel="stylesheet"
+			href="/static/styles.css" />
+
+		<!-- Remove Firebase SDK script tags as we'll import them as modules -->
+
+		<style>
+			.welcome-page {
+				background: linear-gradient(
+						to top,
+						rgba(0, 0, 0, 0.5) 50%,
+						rgba(0, 0, 0, 0.5) 50%
+					),
+					url('https://github.com/Zahra-2/SENTRA/blob/main/bg.jpg?raw=true');
+				background-position: center;
+				background-size: cover;
+				height: 100vh;
+				color: white;
+			}
+
+			.welcome-message {
+				text-align: center;
+				padding-top: 150px;
+			}
+
+			.welcome-message h2 {
+				font-size: 36px;
+				margin-bottom: 20px;
+				color: #ff7200;
+			}
+
+			.welcome-message p {
+				font-size: 18px;
+				margin-bottom: 40px;
+			}
+
+			.logout-btn {
+				background-color: #ff7200;
+				color: white;
+				padding: 10px 20px;
+				border: none;
+				border-radius: 5px;
+				font-size: 16px;
+				cursor: pointer;
+				transition: 0.4s ease;
+			}
+
+			.logout-btn:hover {
+				background-color: white;
+				color: #ff7200;
+			}
+
+			.user-dashboard {
+				background-color: rgba(0, 0, 0, 0.7);
+				max-width: 800px;
+				margin: 40px auto;
+				padding: 20px;
+				border-radius: 10px;
+			}
+
+			.dashboard-heading {
+				color: #ff7200;
+				margin-bottom: 20px;
+			}
+		</style>
+		<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+		<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+	</head>
+	<body class="welcome-page">
+		<!-- Navbar -->
+		<div class="navbar">
+			<div class="icon">
+				<img
+					src="https://github.com/Zahra-2/SENTRA/blob/main/logo.png?raw=true"
+					alt="Logo"
+					class="logo" />
+			</div>
+			<div class="menu">
+				<ul>
+					<li><a href="/">HOME</a></li>
+					<li><a href="/service">SERVICE</a></li>
+					<li><a href="/coming-soon">CONTACT</a></li>
+					<li>
+						<button
+							id="logout-btn"
+							class="logout-btn">
+							LOGOUT
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Welcome Message -->
+		<div class="welcome-message">
+			<h2>Welcome to SENTRA, <span id="username"></span>!</h2>
+			<p>
+				We are glad to have you here. Explore our services and enjoy your stay.
+			</p>
+		</div>
+
+		<!-- User Dashboard -->
+		<div class="user-dashboard">
+			<h3 class="dashboard-heading">Your Dashboard</h3>
+			<p>Here you can manage your IoT devices and security settings.</p>
+			<p>Profile Status: <span style="color: #ff7200">Active</span></p>
+			<p>Last Login: <span id="last-login">Loading...</span></p>
+		</div>
+
+		<!-- Chat Icon -->
+		<div class="chat-icon" id="chat-icon">
+			<ion-icon name="chatbubble-ellipses"></ion-icon>
+		</div>
+
+		<!-- Chat Box -->
+		<div class="chat-box" id="chat-box">
+			<div class="chat-header">
+				<h3>Contact Support</h3>
+				<button id="close-chat">&times;</button>
+			</div>
+			<div class="chat-body">
+				<textarea id="message-input" placeholder="Type your message here..."></textarea>
+				<button id="send-btn">Send</button>
+			</div>
+		</div>
+
+		<script type="module">
+			// Import Firebase functions from our config file
+			import {
+				auth,
+				db,
+				onAuthStateChanged,
+				signOut,
+				doc,
+				getDoc,
+				updateDoc,
+				serverTimestamp,
+				setDoc,
+			} from '/static/firebase-config.js';
+
+			// Get the username from the URL or from Firebase
+			const urlParams = new URLSearchParams(window.location.search);
+			const usernameFromUrl = urlParams.get('username');
+
+			// Check if user is logged in
+			onAuthStateChanged(auth, function (user) {
+				if (user) {
+					// User is signed in
+					getDoc(doc(db, 'users', user.uid))
+						.then((docSnapshot) => {
+							if (docSnapshot.exists()) {
+								const userData = docSnapshot.data();
+								document.getElementById('username').textContent =
+									userData.username || usernameFromUrl || 'User';
+
+								// Update last login time
+								const lastLoginDate = user.metadata.lastSignInTime
+									? new Date(user.metadata.lastSignInTime)
+									: new Date();
+								document.getElementById('last-login').textContent =
+									lastLoginDate.toLocaleString();
+
+								// Update user's last login in Firestore
+								updateDoc(doc(db, 'users', user.uid), {
+									lastLogin: serverTimestamp(),
+								}).catch((error) =>
+									console.error('Error updating last login: ', error)
+								);
+							} else {
+								document.getElementById('username').textContent =
+									usernameFromUrl || 'User';
+							}
+						})
+						.catch((error) => {
+							console.error('Error getting user data: ', error);
+							document.getElementById('username').textContent =
+								usernameFromUrl || 'User';
+						});
+				} else {
+					// No user is signed in, redirect to login page
+					window.location.href = '/';
+				}
+			});
+
+			// Handle logout
+			document
+				.getElementById('logout-btn')
+				.addEventListener('click', function () {
+					signOut(auth)
+						.then(() => {
+							// Sign-out successful
+							window.location.href = '/';
+						})
+						.catch((error) => {
+							// An error happened
+							console.error('Error signing out: ', error);
+						});
+				});
+
+			// Get chat elements
+			const chatIcon = document.getElementById('chat-icon');
+			const chatBox = document.getElementById('chat-box');
+			const closeChat = document.getElementById('close-chat');
+			const sendBtn = document.getElementById('send-btn');
+			const messageInput = document.getElementById('message-input');
+
+			// Toggle chat box visibility
+			chatIcon.addEventListener('click', () => {
+				chatBox.classList.toggle('active');
+			});
+
+			// Close chat box
+			closeChat.addEventListener('click', () => {
+				chatBox.classList.remove('active');
+			});
+
+			// Send message to support team
+			sendBtn.addEventListener('click', async () => {
+				const message = messageInput.value.trim();
+
+				if (message === '') {
+					alert('Please enter a message.');
+					return;
+				}
+
+				const user = auth.currentUser;
+
+				if (user) {
+					try {
+						// Create a unique ID for the message
+						const messageId = new Date().getTime().toString();
+
+						// Send the message using setDoc
+						await setDoc(doc(db, 'support_messages', messageId), {
+							user_email: user.email,
+							message: message,
+							timestamp: serverTimestamp(),
+							status: 'unread',
+						});
+
+						alert('Message sent to support team.');
+						messageInput.value = ''; // Clear the input
+						chatBox.classList.remove('active'); // Close the chat box
+					} catch (error) {
+						console.error('Error sending message:', error);
+						alert('Failed to send message. Please try again.');
+					}
+				} else {
+					alert('You must be logged in to send a message.');
+				}
+			});
+		</script>
+	</body>
+</html>

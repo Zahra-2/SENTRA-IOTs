@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SENTRA</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    
+    <!-- Remove Firebase SDK script tags as we'll import them as modules -->
+</head>
+<body>
+
+    <div class="main">
+        <div class="navba">
+            <div class="icon">
+              <img src="https://github.com/Zahra-2/SENTRA/blob/main/logo.png?raw=true" style="opacity: 0.4;" alt="Logo" class="logo">
+            </div>
+
+            <div class="menu">
+                <ul>
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="/">LOGIN</a></li>
+                    <li><a href="/service">SERVICE</a></li>
+                    <li><a href="/coming-soon">CONTACT</a></li>
+                </ul>
+            </div>
+
+
+        </div> 
+        <div class="content">
+            <h1>WELCAME TO<br><span>SENTRA</span></h1>
+            <p class="par">SENTR designed to secure IoT devices by detecting, preventing, and managing threats in real time. 
+             <br> Powered by advanced AI and strong security protocols, it provides seamless protection for users <br> systems</p>
+
+                <button class="cn"><a href="/register">Registration</a></button>
+                <button class="cn"><a href="/">Login</a></button>
+
+                <div class="form">
+                    <h2>Login </h2>
+                    <input type="email" id="login-email" name="email" placeholder="Enter Email">
+                    <input type="password" id="login-password" name="password" placeholder="Enter Password">
+                    <div id="login-error" style="color: red; margin-top: 10px;"></div>
+                    <button class="btnn" id="login-btn">Login</button>
+
+                    <p class="link">Don't have an account<br>
+                    <a href="/register">Sign up </a> here</a></p>
+                    <p class="liw">Log in with</p>
+
+                    <div class="icons">
+                        <a href="#" id="twitter-login"><ion-icon name="logo-twitter"></ion-icon></a>
+                        <a href="#" id="google-login"><ion-icon name="logo-google"></ion-icon></a>
+                    </div>
+
+                </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+    
+    <script type="module">
+        // Import Firebase functions from our config file
+        import { 
+            auth,
+            db,
+            signInWithEmailAndPassword,
+            onAuthStateChanged,
+            GoogleAuthProvider,
+            TwitterAuthProvider,
+            signInWithPopup,
+            doc,
+            getDoc,
+            setDoc
+        } from '/static/firebase-config.js';
+        
+        // Email/Password Login
+        document.getElementById('login-btn').addEventListener('click', function() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const errorElement = document.getElementById('login-error');
+            
+            errorElement.textContent = '';
+            
+            if (!email || !password) {
+                errorElement.textContent = 'Please enter both email and password';
+                return;
+            }
+            
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Get user data from Firestore
+                    const user = userCredential.user;
+                    return getDoc(doc(db, 'users', user.uid));
+                })
+                .then((docSnapshot) => {
+                    if (docSnapshot.exists()) {
+                        const userData = docSnapshot.data();
+                        // Redirect to welcome page with username
+                        window.location.href = `/welcome?username=${encodeURIComponent(userData.username)}`;
+                    } else {
+                        // User document not found
+                        window.location.href = '/welcome';
+                    }
+                })
+                .catch((error) => {
+                    errorElement.textContent = error.message;
+                });
+        });
+        
+        // Google Sign In
+        document.getElementById('google-login').addEventListener('click', function(e) {
+            e.preventDefault();
+            const provider = new GoogleAuthProvider();
+            
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    // Check if user exists in Firestore
+                    const user = result.user;
+                    
+                    getDoc(doc(db, 'users', user.uid))
+                        .then((docSnapshot) => {
+                            if (!docSnapshot.exists()) {
+                                // If user doesn't exist, create a new document
+                                return setDoc(doc(db, 'users', user.uid), {
+                                    fullName: user.displayName || '',
+                                    email: user.email,
+                                    username: user.email.split('@')[0],
+                                    createdAt: new Date()
+                                });
+                            }
+
+              //               else{
+              //                 setDoc(doc(db, 'users', user.uid), {
+							// 	fullName: user.displayName,
+							// 	email: user.email,
+							// 	username:   user.displayName,
+							// 	createdAt: new Date(),
+							// });
+              //               }
+                            return Promise.resolve();
+                        })
+                        .then(() => {
+                            window.location.href = '/welcome';
+                        });
+                })
+                .catch((error) => {
+                    document.getElementById('login-error').textContent = error.message;
+                });
+        });
+        
+        // Twitter Sign In
+        document.getElementById('twitter-login').addEventListener('click', function(e) {
+            e.preventDefault();
+            const provider = new TwitterAuthProvider();
+            
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    // Similar logic as Google sign-in
+                    const user = result.user;
+                    
+                    getDoc(doc(db, 'users', user.uid))
+                        .then((docSnapshot) => {
+                            if (!docSnapshot.exists()) {
+                                return setDoc(doc(db, 'users', user.uid), {
+                                    fullName: user.displayName || '',
+                                    email: user.email || '',
+                                    username: user.displayName || 'user',
+                                    createdAt: new Date()
+                                });
+                            }
+                            return Promise.resolve();
+                        })
+                        .then(() => {
+                            window.location.href = '/welcome';
+                        });
+                })
+                .catch((error) => {
+                    document.getElementById('login-error').textContent = error.message;
+                });
+        });
+        
+        // Check if user is already logged in
+        onAuthStateChanged(auth, function(user) {
+            if (user) {
+                // User is signed in, redirect to welcome page
+                getDoc(doc(db, 'users', user.uid))
+                    .then((docSnapshot) => {
+                        if (docSnapshot.exists()) {
+                            const userData = docSnapshot.data();
+                            window.location.href = `/welcome?username=${encodeURIComponent(userData.username)}`;
+                        } else {
+                            window.location.href = '/welcome';
+                        }
+                    });
+            }
+        });
+    </script>
+</body>
+</html>

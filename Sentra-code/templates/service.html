@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Service - SENTRA</title>
+		<link
+			rel="stylesheet"
+			href="/static/styles.css" />
+
+		<!-- Remove Firebase SDK script tags as we'll import them as modules -->
+	</head>
+	<body class="service-page">
+		<div class="navbar">
+			<div class="icon">
+				<img
+					src="https://github.com/Zahra-2/SENTRA/blob/main/logo.png?raw=true"
+					alt="Logo"
+					class="logo" />
+			</div>
+			<div class="menu">
+				<ul>
+					<li><a href="/">HOME</a></li>
+					<li><a href="/service">SERVICE</a></li>
+					<li><a href="/coming-soon">CONTACT</a></li>
+					<li>
+						<button
+							id="logout-btn"
+							class="logout-btn">
+							LOGOUT
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- مربع الخدمة -->
+		<div class="service-box">
+			<h2>Scan Your Devices</h2>
+			<p id="user-welcome">Welcome, <span id="username">User</span>!</p>
+			<div class="options">
+				<a
+					href="/manual-connection"
+					class="option-btn"
+					>Manual Connection</a
+				>
+                                <a
+                                        href="/download"
+                                        class="option-btn"
+                                        >Download Report</a
+                                > 
+		</div>
+
+		<script type="module">
+			// Import Firebase functions from our config file
+			import {
+				auth,
+				db,
+				onAuthStateChanged,
+				signOut,
+				doc,
+				getDoc,
+			} from '/static/firebase-config.js';
+
+			// Check if user is logged in
+			onAuthStateChanged(auth, function (user) {
+				if (user) {
+					// User is signed in
+					getDoc(doc(db, 'users', user.uid))
+						.then((docSnapshot) => {
+							if (docSnapshot.exists()) {
+								const userData = docSnapshot.data();
+								document.getElementById('username').textContent =
+									userData.username || 'User';
+							}
+						})
+						.catch((error) => {
+							console.error('Error getting user data: ', error);
+						});
+				} else {
+					// No user is signed in, redirect to login page
+					window.location.href = '/';
+				}
+			});
+
+			// Handle logout
+			document
+				.getElementById('logout-btn')
+				.addEventListener('click', function () {
+					signOut(auth)
+						.then(() => {
+							// Sign-out successful
+							window.location.href = '/';
+						})
+						.catch((error) => {
+							// An error happened
+							console.error('Error signing out: ', error);
+						});
+				});
+		</script>
+	</body>
+</html>

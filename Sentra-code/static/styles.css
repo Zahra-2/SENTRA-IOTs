@@ -1,0 +1,814 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.main {
+  width: 100%;
+  background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.5) 50%,
+      rgba(0, 0, 0, 0.5) 50%
+    ),
+    url("https://github.com/Zahra-2/SENTRA/blob/main/bg.jpg?raw=true"); 
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+}
+
+.navba {
+  width: 100x;
+  margin: auto;
+  justify-content: space-between;
+  display: flex;
+  justify-content: flex-start; /* نقل القائمة إلى اليسار */
+  align-items: center;
+}
+
+
+.navbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  backdrop-filter: blur(1px); /* تأثير ضبابي خفيف */
+}
+
+/* تنسيق قائمة الروابط */
+.menu ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  margin-left: -150px;
+
+}
+
+/* تنسيق الروابط */
+.menu ul li a {
+  text-decoration: none;
+  color: white; /* أو لون يتناسب مع الخلفية */
+  font-size: 16px;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+}
+
+/* تأثير عند التمرير */
+.menu ul li a:hover {
+  color: #9a34ab;
+}
+
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* منع التمرير الجانبي */
+}
+
+.main {
+  min-height: 100vh;
+  overflow: hidden; /* منع التمرير الزائد */
+}
+
+
+css Copy .icon {
+  width: 200px;
+  float: left;
+  height: 70px;
+  display: flex;
+  align-items: center; /* لتوسيط الصورة عموديًا */
+}
+
+.logo {
+  width: 180px; /* اضبط العرض حسب الحجم المطلوب */
+  height: auto; /* للحفاظ على نسبة العرض إلى الارتفاع */
+  margin-top: 5px; /* تعديل المسافة من الأعلى إذا لزم الأمر */
+}
+
+.menu {
+  width: 100%; /* تمتد على عرض الشاشة بالكامل */
+  height: 70px;
+  display: flex;
+  justify-content: flex-end; /* توزيع العناصر */
+  align-items: center; /* توسيط العناصر عموديًا */
+  padding: 0 30px; /* إضافة حشو داخلي */
+}
+ul {
+  float: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ul li {
+  list-style: none;
+  margin-left: 30px; /* تقليل المسافة بين عناصر القائمة */
+  margin-top: 27px;
+  font-size: 16px;
+}
+
+ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-family: Arial;
+  font-weight: bold;
+  transition: 0.4s ease-in-out;
+}
+
+ul li a:hover {
+  color: #9a34ab;
+}
+
+.search {
+  width: 330px;
+  float: left;
+  margin-left: 270px;
+}
+
+.srch {
+  font-family: "Times New Roman";
+  width: 200px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid #009dff;
+  margin-top: 13px;
+  color: #fff;
+  border-right: none;
+  font-size: 16px;
+  float: left;
+  padding: 10px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+.btn {
+  width: 100px;
+  height: 40px;
+  background: #181216;
+  border: 2px solid #ff7200;
+  margin-top: 13px;
+  color: #fff;
+  font-size: 15px;
+  border-bottom-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  transition: 0.2s ease;
+  cursor: pointer;
+}
+
+.btn:hover {
+  color: #100c0c;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.srch:focus {
+  outline: none;
+}
+
+.content {
+  width: 1200px;
+  height: auto;
+  margin: auto;
+  color: #f8fbfb;
+  position: relative;
+}
+
+.content .par {
+  padding-left: 20px;
+  padding-bottom: 25px;
+  font-family: sans-serif;
+  letter-spacing: 1.2px;
+  line-height: 16px;
+  font-size: 12px;
+}
+
+.content h1 {
+  font-family: lato bold;
+  font-weight: 800;
+  font-size: 70px;
+  padding-left: 20px;
+  margin-top: 9%;
+  letter-spacing: 2px;
+}
+
+.content .cn {
+  width: 160px;
+  height: 40px;
+  background: #9a34ab;
+  border: none;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.4s ease;
+  font-family: poppins;
+}
+
+.content .cn a {
+  text-decoration: none;
+  color: #f7f3f3;
+  transition: 0.3s ease;
+}
+
+.cn:hover {
+  background-color: #ffffff;
+}
+
+.content span {
+  color: #9a34ab;
+  font-size: 65px;
+}
+
+.form {
+  width: 280px;
+  height: 480px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  padding: 30px;
+  text-align: center;
+  opacity: 0.9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  left: 80%;
+  top: 50%;
+  transform: translate(-40%, -61%);
+  margin-bottom: 1px;
+  margin-left: 1000px; 
+}
+
+.form h2 {
+  width: 220px;
+  font-family: poppins;
+  text-align: center;
+  color: #fefcfc;
+  font-size: 25px;
+  border-radius: 10px;
+  margin: 2px;
+  padding: 8px;
+}
+
+.form input {
+  width: 240px;
+  height: 35px;
+  background: transparent;
+  border-bottom: 1px solid white;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  color: #ffffffd6;
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin-top: 30px;
+  font-family: poppins;
+}
+
+.form input:focus {
+  outline: none;
+}
+
+::placeholder {
+  color: #fff;
+  font-family: poppins;
+}
+
+.btnn {
+  width: 240px;
+  height: 40px;
+  background: #9a34ab;
+  border: none;
+  margin-top: 30px;
+  font-size: 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #fff;
+  transition: 0.4s ease;
+}
+
+.btnn:hover {
+  background: #fff;
+  color: #7d4b86;
+}
+
+.btnn a {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+}
+
+.form .link {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 17px;
+  padding-top: 20px;
+  text-align: center;
+  color: #fff;
+}
+
+.form .link a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.liw {
+  padding-top: 15px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.icons a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.icons ion-icon {
+  color: #fff;
+  font-size: 30px;
+  padding-left: 14px;
+  padding-top: 5px;
+  transition: 0.3s ease;
+}
+
+.icons ion-icon:hover {
+  color: #9a34ab;
+}
+.register-page {
+  background: url("https://github.com/Zahra-2/SENTRA/blob/main/Registration_bg.jpg?raw=true")
+    no-repeat center center/cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.logo-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.register-logo {
+  width: 120px;
+  opacity: 0.8;
+}
+
+.register-form {
+  width: 380px;
+  height: 580px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  padding: 30px;
+  text-align: center;
+  opacity: 0.9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  left: 80%;
+  top: 50%;
+  transform: translate(-70%, -50%);
+  margin-top: 600px;
+  margin-left: 500px; 
+}
+
+.register-form h2 {
+  font-family: poppins;
+  color: #fff;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.register-form input {
+  width: 100%;
+  height: 40px;
+  background: transparent;
+  border-bottom: 1px solid #fff;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  color: #fff;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.register-form input:focus {
+  outline: none;
+}
+
+::placeholder {
+  color: #ddd;
+}
+
+.btnn {
+  width: 100%;
+  height: 45px;
+  background: #9a34ab;
+  border: none;
+  margin-top: 30px;
+  font-size: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #fff;
+  transition: 0.4s ease;
+}
+
+.btnn:hover {
+  background: #fff;
+  color: #9a34ab;
+}
+
+.btnn a {
+  text-decoration: none;
+  color: #f9f5f5;
+  font-weight: bold;
+}
+
+.register-form .link {
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+.register-form .link a {
+  color: #9a34ab;
+  text-decoration: none;
+  font-weight: bold;
+}
+/* تنسيق صفحة الخدمة */
+.service-page {
+  background: url("https://github.com/Zahra-2/SENTRA/blob/main/service-bg.jpg?raw=true") no-repeat center center/cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* تنسيق مربع الخدمة */
+.service-box {
+  width: 400px;
+  height: 300px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  padding: 30px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.service-box h2 {
+  font-family: poppins;
+  color: #fff;
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+/* تنسيق الخيارات */
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.option-btn {
+  width: 200px;
+  height: 50px;
+  background: #9a34ab;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 18px;
+  font-family: poppins;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.4s ease;
+}
+
+.option-btn:hover {
+  background: #fff;
+  color: #9a34ab;
+}
+/* تنسيق صفحة Coming Soon */
+.coming-soon-page {
+  background: url("https://github.com/Zahra-2/SENTRA/blob/main/bg%202.jpg?raw=true") no-repeat center center/cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  text-align: center;
+}
+
+/* تنسيق المحتوى */
+.coming-soon-content {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.coming-soon-content h1 {
+  font-family: poppins;
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: #9a34ab;
+}
+
+.coming-soon-content p {
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  margin-bottom: 30px;
+  color: #ddd;
+}
+
+/* تنسيق العداد التنازلي */
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.countdown-item {
+  background: rgba(154, 52, 171, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  width: 100px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.countdown-item span {
+  display: block;
+  font-family: poppins;
+}
+
+.countdown-item span:first-child {
+  font-size: 32px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.countdown-item span:last-child {
+  font-size: 14px;
+  color: #ddd;
+}
+/* General styling for the support team page */
+.support-team-page {
+    background: linear-gradient(to right, #0f0f0f, #1c1c1c, #292929);
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Navbar styling */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 15px 30px;
+    backdrop-filter: blur(10px);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.logo {
+    width: 120px;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.menu ul li {
+    margin: 0 15px;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.menu ul li a:hover {
+    color: #00c3ff;
+}
+
+/* Notifications Box */
+.notifications-container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 800px;
+    margin: 120px auto 30px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    text-align: left;
+    width: 90%;
+}
+
+.notifications-container h2 {
+    color: #00c3ff;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Notifications Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+th {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+}
+
+td {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Action Buttons */
+.btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-read {
+    background: #00c3ff;
+    color: white;
+}
+
+.btn-read:hover {
+    background: #009ccf;
+}
+
+.btn-delete {
+    background: #ff4d4d;
+    color: white;
+}
+
+.btn-delete:hover {
+    background: #cc0000;
+}
+
+/* Logout Button */
+.logout-btn {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background: #cc0000;
+}
+/* Chat Icon */
+.chat-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #ff7200;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
+}
+
+.chat-icon:hover {
+  background-color: #cc5c00;
+}
+
+.chat-icon ion-icon {
+  font-size: 24px;
+}
+
+/* Chat Box */
+.chat-box {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 300px;
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: none;
+  flex-direction: column;
+  color: white;
+}
+
+.chat-box.active {
+  display: flex;
+}
+
+.chat-header {
+  padding: 10px;
+  background: rgba(255, 114, 0, 0.8);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+#close-chat {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.chat-body {
+  padding: 10px;
+}
+
+#message-input {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  resize: none;
+}
+
+#message-input::placeholder {
+  color: #ccc;
+}
+
+#send-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #ff7200;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#send-btn:hover {
+  background-color: #cc5c00;
+}

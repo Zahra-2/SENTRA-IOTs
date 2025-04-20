@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Register - SENTRA</title>
+		<link
+			rel="stylesheet"
+			href="/static/styles.css" />
+
+		<!-- Remove Firebase SDK script tags as we'll import them as modules -->
+	</head>
+	<body class="register-page">
+		<!-- Navbar -->
+		<div class="navbar">
+			<div class="icon">
+				<img
+					src="https://github.com/Zahra-2/SENTRA/blob/main/logo.png?raw=true"
+					alt="Logo"
+					class="logo" />
+			</div>
+			<div class="menu">
+				<ul>
+					<li><a href="/">HOME</a></li>
+					<li><a href="/">LOGIN</a></li>
+					<li><a href="/service">SERVICE</a></li>
+					<li><a href="/coming-soon">CONTACT</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Registration Form -->
+		<div class="register-form">
+			<h2>Registration</h2>
+			<input
+				type="text"
+				id="name"
+				placeholder="Full Name"
+				required />
+			<input
+				type="email"
+				id="email"
+				placeholder="Email"
+				required />
+			<input
+				type="text"
+				id="username"
+				placeholder="Username"
+				required />
+			<input
+				type="password"
+				id="password"
+				placeholder="Password"
+				required />
+
+			<div class="terms-container">
+				<input
+					type="checkbox"
+					id="terms"
+					required />
+				<label
+					for="terms"
+					class="terms-label">
+					You confirm that you have read and agree to our Terms and Conditions
+					and Privacy Policy.
+				</label>
+			</div>
+
+			<div
+				id="error-message"
+				style="color: red; margin-top: 10px"></div>
+			<div
+				id="success-message"
+				style="color: green; margin-top: 10px"></div>
+
+			<button
+				class="btnn"
+				id="register-btn">
+				Submit
+			</button>
+
+			<p class="link">
+				Already have an account? <a href="/">Login here</a>
+			</p>
+		</div>
+
+		<script type="module">
+			// Import Firebase functions from our config file
+			import {
+				auth,
+				db,
+				createUserWithEmailAndPassword,
+				doc,
+				setDoc,
+			} from '/static/firebase-config.js';
+
+			// Register a new user
+			document
+				.getElementById('register-btn')
+				.addEventListener('click', function () {
+					const name = document.getElementById('name').value;
+					const email = document.getElementById('email').value;
+					const username = document.getElementById('username').value;
+					const password = document.getElementById('password').value;
+					const termsAccepted = document.getElementById('terms').checked;
+
+					const errorMessage = document.getElementById('error-message');
+					const successMessage = document.getElementById('success-message');
+
+					errorMessage.textContent = '';
+					successMessage.textContent = '';
+
+					// Validate form inputs
+					if (!name || !email || !username || !password) {
+						errorMessage.textContent = 'Please fill in all fields';
+						return;
+					}
+
+					if (!termsAccepted) {
+						errorMessage.textContent =
+							'You must accept the terms and conditions';
+						return;
+					}
+
+					// Create user with email and password
+					createUserWithEmailAndPassword(auth, email, password)
+						.then((userCredential) => {
+							// Save additional user data to Firestore
+							const user = userCredential.user;
+							return setDoc(doc(db, 'users', user.uid), {
+								fullName: name,
+								email: email,
+								username: username,
+								createdAt: new Date(),
+							});
+						})
+						.then(() => {
+							successMessage.textContent =
+								'Registration successful! Redirecting to login...';
+
+							// Clear form
+							document.getElementById('name').value = '';
+							document.getElementById('email').value = '';
+							document.getElementById('username').value = '';
+							document.getElementById('password').value = '';
+							document.getElementById('terms').checked = false;
+
+
+
+							// Redirect to login page after short delay
+							setTimeout(() => {
+								window.location.href = '/';
+							}, 2000);
+						})
+						.catch((error) => {
+							errorMessage.textContent = error.message;
+						});
+				});
+		</script>
+	</body>
+</html>

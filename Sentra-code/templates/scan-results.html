@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Results - SENTRA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .print-button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #ff7200;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .print-button:hover {
+            background-color: #ff7300b9;
+        }
+        @media print {
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Scan Results</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>IP Address</th>
+                <th>MAC Address</th>
+                <th>Device Name</th>
+            </tr>
+        </thead>
+        <tbody id="results-body">
+            <!-- Results will be populated here -->
+        </tbody>
+    </table>
+
+    <a class="print-button" href="/download">Download Report</a>
+
+    <script>
+        // Retrieve scan results from localStorage
+        const scanResults = JSON.parse(localStorage.getItem('scanResults'));
+
+        // Populate the table with results
+        const resultsBody = document.getElementById('results-body');
+        if (scanResults && scanResults.length > 0) {
+            scanResults.forEach(device => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${device.ip}</td>
+                    <td>${device.mac}</td>
+                    <td>${device.name}</td>
+                `;
+                resultsBody.appendChild(row);
+            });
+        } else {
+            resultsBody.innerHTML = '<tr><td colspan="3">No devices found.</td></tr>';
+        }
+    </script>
+</body>
+</html>

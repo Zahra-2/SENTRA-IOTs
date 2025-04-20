@@ -1,0 +1,9 @@
+﻿dnspython
+fastapi
+python-nmap
+reportlab
+sslyze
+uvicorn
+wapiti3
+jinja2
+python-multipart
